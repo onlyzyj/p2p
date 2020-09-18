@@ -39,4 +39,9 @@
   <select id="getCountByUsername" resultType="int">
   	SELECT count(id) FROM logininfo WHERE username = #{username}
   </select>
+
+  <select id="login" resultMap="BaseResultMap">
+    select id, username, password, state, userType
+    from `logininfo` where username = #{username} and password = #{password}
+  </select>
 </mapper>

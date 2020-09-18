@@ -21,7 +21,11 @@ public class LogininfoServiceImplTest extends TestCase {
 
     @Test
     public void testShow(){
-        logininfoService.register("19","12");
+        try {
+            logininfoService.register("19","12");
+        }catch (RuntimeException er){
+            System.out.println(er.getMessage());
+        }
     }
 
 }

@@ -63,8 +63,8 @@
 				$("#registerForm").ajaxSubmit({
 					dataType:"json",
 					success:function(data){
-						if(data.success){
-							$.messager.confirm("提示","注册成功!",function(){
+						if (data.success){
+							$.messager.confirm("提示","注册成功",function(){
 								window.location.href="/login.html";
 							});
 						}else{
@@ -72,12 +72,15 @@
 						}
 					}
 				});
+				//这里已经不是原生的submit了，可以不用return false
 			},
+			//给提示文字添加格式
 			errorClass:"text-danger",
+			//给输入框添加红色外框,注意这里的div.form-group指的是class为form-group的div
 			highlight: function(element,errorClass) {
-				//给输入框添加红色外框
 				$(element).closest("div.form-group").addClass("has-error");
 			},
+			//从错误变对时，移除格式
 			unhighlight:function(element,errorClass){
 				$(element).closest("div.form-group").removeClass("has-error");
 			}

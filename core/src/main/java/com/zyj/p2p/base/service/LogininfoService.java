@@ -6,6 +6,9 @@ package com.zyj.p2p.base.service;
  */
 public interface LogininfoService {
 
-public void register(String username,String password);
+    void register(String username,String password);
 
+    int getCountByUsername(String username);
+
+    void login(String username, String password);
 }
