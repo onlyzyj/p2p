@@ -1,8 +1,12 @@
 package com.zyj.p2p.base.service.impl;
 
+import com.zyj.p2p.base.domain.Account;
 import com.zyj.p2p.base.domain.Logininfo;
+import com.zyj.p2p.base.domain.Userinfo;
 import com.zyj.p2p.base.mapper.LogininfoMapper;
+import com.zyj.p2p.base.service.AccountService;
 import com.zyj.p2p.base.service.LogininfoService;
+import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.util.MD5;
 import com.zyj.p2p.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,12 @@ public class LogininfoServiceImpl implements LogininfoService {
     @Autowired
     private LogininfoMapper logininfoMapper;
 
+    @Autowired
+    private UserinfoService userinfoService;
+
+    @Autowired
+    private AccountService accountService;
+
     @Override
     public void register(String username, String password) {
         int count = logininfoMapper.getCountByUsername(username);
@@ -28,6 +38,16 @@ public class LogininfoServiceImpl implements LogininfoService {
             li.setUsername(username);
             li.setState(Logininfo.STATE_NORMAL);
             logininfoMapper.insert(li);
+
+            //初始化账户信息和userinfo
+            Account account = new Account();
+            account.setId(li.getId());
+            System.out.println(account.toString()+account.getId());
+            accountService.add(account);
+            Userinfo userinfo = new Userinfo();
+            userinfo.setId(li.getId());
+            System.out.println(userinfo.toString());
+            userinfoService.add(userinfo);
         }else{
             throw new RuntimeException("用户名已存在");
         }

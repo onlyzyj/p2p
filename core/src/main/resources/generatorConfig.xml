@@ -63,7 +63,8 @@
 				value=""/> -->
 		</javaClientGenerator>
 	
-		<table tableName="logininfo" delimitIdentifiers="true">
+
+		<table tableName="userinfo" delimitIdentifiers="true">
 			<!-- 参考 javaModelGenerator 的 constructorBased属性 -->
 			<property name="constructorBased" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"/>

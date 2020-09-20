@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author onlyzyj
  * @date 2020/9/16-16:45
@@ -20,11 +22,11 @@ public class RegisterController {
 
     @RequestMapping("/register")
     @ResponseBody
-    public JSONResult register(String username,String password){
+    public JSONResult register(String username, String password) {
         JSONResult result = new JSONResult();
         try {
             logininfoService.register(username, password);
-        }catch (RuntimeException re){
+        } catch (RuntimeException re) {
             result.setSuccess(false);
             result.setMsg(re.getMessage());
         }
@@ -33,18 +35,18 @@ public class RegisterController {
 
     @RequestMapping("checkUsername")
     @ResponseBody
-    public boolean checkUsername(String username){
+    public boolean checkUsername(String username) {
         int count = logininfoService.getCountByUsername(username);
         return count < 1;
     }
 
     @RequestMapping("login")
     @ResponseBody
-    public JSONResult login(String username,String password){
+    public JSONResult login(String username, String password) {
         JSONResult result = new JSONResult();
         try {
             logininfoService.login(username, password);
-        }catch (RuntimeException re){
+        } catch (RuntimeException re) {
             result.setSuccess(false);
             result.setMsg(re.getMessage());
         }
