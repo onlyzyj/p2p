@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyj.p2p.base.mapper.IplogMapper" >
+  <resultMap id="BaseResultMap" type="com.zyj.p2p.base.domain.Iplog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="loginTime" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="userType" property="userType" jdbcType="TINYINT" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.zyj.p2p.base.domain.Iplog" useGeneratedKeys="true" keyProperty="id" >
+    insert into `iplog` (ip, state, userName, 
+      loginTime, userType)
+    values (#{ip,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{userName,jdbcType=VARCHAR},
+      #{loginTime,jdbcType=TIMESTAMP}, #{userType,jdbcType=TINYINT})
+  </insert>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, ip, state, userName, loginTime, userType
+    from `iplog`
+  </select>
+
+  <sql id="base_column">
+  	id, ip, state, userName, loginTime,userType
+  </sql>
+
+  <sql id="base_where">
+    <where>
+      <if test="beginDate!=null">
+        and loginTime &gt;= #{beginDate}
+      </if>
+      <if test="endDate!=null">
+        and loginTime &lt;= #{endDate}
+      </if>
+      <if test="state>-1">
+        and state = #{state}
+      </if>
+      <if test="username!=null">
+        and username = #{username}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryForCount" resultType="int">
+    select count(*) from iplog <include refid="base_where"/>;
+  </select>
+
+  <select id="query" resultMap="BaseResultMap">
+    select <include refid="base_column"/> from iplog
+    <include refid="base_where"/>
+    order by loginTime DESC
+    LIMIT #{start},#{pageSize}
+  </select>
+</mapper>

@@ -1,5 +1,6 @@
 package com.zyj.p2p.base.controller;
 
+import com.zyj.p2p.base.domain.Logininfo;
 import com.zyj.p2p.base.service.LogininfoService;
 import com.zyj.p2p.base.util.JSONResult;
 import com.zyj.p2p.base.util.MD5;
@@ -42,13 +43,12 @@ public class RegisterController {
 
     @RequestMapping("login")
     @ResponseBody
-    public JSONResult login(String username, String password) {
+    public JSONResult login(String username, String password, HttpServletRequest request) {
         JSONResult result = new JSONResult();
-        try {
-            logininfoService.login(username, password);
-        } catch (RuntimeException re) {
+        Logininfo current = logininfoService.login(username, password, request.getRemoteAddr());
+        if (current == null) {
             result.setSuccess(false);
-            result.setMsg(re.getMessage());
+            result.setMsg("用户名或者密码错误");
         }
         return result;
     }

@@ -13,4 +13,6 @@ public interface AccountService {
     void update(Account account);
 
     void add(Account account);
+
+    Account get(Long id);
 }

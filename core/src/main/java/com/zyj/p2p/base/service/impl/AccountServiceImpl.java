@@ -28,4 +28,9 @@ public class AccountServiceImpl implements AccountService {
     public void add(Account account) {
         accountMapper.insert(account);
     }
+
+    @Override
+    public Account get(Long id) {
+        return accountMapper.selectByPrimaryKey(id);
+    }
 }

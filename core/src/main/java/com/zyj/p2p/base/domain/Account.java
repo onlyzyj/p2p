@@ -25,4 +25,8 @@ public class Account extends BaseDomian {
 
     private String verifyCode;// 做数据校验的
 
+    public BigDecimal getTotalAmount(){
+        return usableAmount.add(freezedAmount).add(unReceivePrincipal);
+    }
+
 }

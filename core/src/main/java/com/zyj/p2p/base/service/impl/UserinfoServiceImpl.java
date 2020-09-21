@@ -28,4 +28,9 @@ public class UserinfoServiceImpl implements UserinfoService {
     public void add(Userinfo userinfo) {
         userinfoMapper.insert(userinfo);
     }
+
+    @Override
+    public Userinfo get(Long id) {
+        return userinfoMapper.selectByPrimaryKey(id);
+    }
 }

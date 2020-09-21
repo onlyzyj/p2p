@@ -10,5 +10,7 @@ public interface UserinfoService {
     void update(Userinfo userinfo);
 
     void add(Userinfo userinfo);
+
+    Userinfo get(Long id);
 }
 
