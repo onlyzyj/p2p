@@ -42,6 +42,10 @@
 
   <select id="login" resultMap="BaseResultMap">
     select id, username, password, state, userType
-    from `logininfo` where username = #{username} and password = #{password}
+    from `logininfo` where username = #{username} and password = #{password} and userType = #{userType}
+  </select>
+
+  <select id="getCountOfAmin" resultType="int">
+    select count(*) from `logininfo` where username = 'admin' and userType = 0
   </select>
 </mapper>

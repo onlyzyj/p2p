@@ -33,4 +33,8 @@ public class BidConst {
 	 */
 	public static final BigDecimal INIT_BORROW_LIMIT = new BigDecimal(
 			"5000.0000");
+
+	public static final String INIT_ADMIN_NAME = "admin";
+
+	public static final String INIT_ADMIN_PASSWORD = "1234";
 }

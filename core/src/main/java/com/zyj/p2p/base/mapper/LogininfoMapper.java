@@ -18,5 +18,8 @@ public interface LogininfoMapper {
 
     int getCountByUsername(String username);
 
-    Logininfo login(@Param("username") String username, @Param("password") String password);
+    Logininfo login(@Param("username") String username, @Param("password") String password,@Param("userType")int userType);
+
+    //查找是否有超级管理员的账号
+    int getCountOfAmin();
 }
