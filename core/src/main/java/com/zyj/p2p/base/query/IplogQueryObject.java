@@ -22,6 +22,7 @@ public class IplogQueryObject extends QueryObject {
 	private Date endDate;
 	private int state = -1;
 	private String username;
+	private int userType = -1;
 
 	/**
 	 * 因为IpLogQueryObject里面的参数都是直接让SpringMVC注入进来的 如果没有配置日期的格式,SpringMVC没法注入日期;

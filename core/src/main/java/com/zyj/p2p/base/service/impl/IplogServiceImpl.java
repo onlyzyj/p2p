@@ -22,7 +22,9 @@ public class IplogServiceImpl implements IplogService {
 
     @Override
     public PageResult query(IplogQueryObject qo) {
-        qo.setUsername(UserContext.getCurrent().getUsername());
+        if (qo.getUsername() == ""){
+            qo.setUsername(UserContext.getCurrent().getUsername());
+        }
         int count = this.iplogMapper.queryForCount(qo);
         if (count > 0){
             List<Iplog> list = this.iplogMapper.query(qo);

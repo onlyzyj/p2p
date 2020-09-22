@@ -18,6 +18,14 @@
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.zyj.p2p.base" />
 
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.zyj.p2p.base.util.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!--配置freeMarker的模板路径 -->
 	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<!-- 配置freemarker的文件编码 -->

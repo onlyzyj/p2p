@@ -24,4 +24,8 @@ public class Iplog extends BaseDomian{
     public String getStateDisplay(){
         return state == STATE_SUCCESS ? "登陆成功" : "登陆失败";
     }
+
+    public String getUserTypeDisplay(){
+        return userType == 0 ? "系统管理员" : "普通用户";
+    }
 }

@@ -13,12 +13,12 @@
 		$(".beginDate,.endDate").click(function(){
 			WdatePicker();
 		});
-		
+
 		$("#query").click(function(){
 			$("#currentPage").val(1);
 			$("#searchForm").submit();
 		});
-		
+
 		$("#pagination_container").twbsPagination({
 			totalPages:${pageResult.totalPage},
 			visiblePages:5,
@@ -32,7 +32,7 @@
 				$("#searchForm").submit();
 			}
 		});
-		
+
 	});
 </script>
 </head>
