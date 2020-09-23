@@ -1,6 +1,7 @@
 package com.zyj.p2p.base.util;
 
 import com.zyj.p2p.base.domain.Logininfo;
+import com.zyj.p2p.base.vo.VerifyCodeVO;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -26,5 +27,13 @@ public class UserContext {
 
     public static Logininfo getCurrent(){
         return (Logininfo) getSession().getAttribute(USER_IN_SESSION);
+    }
+
+    public static void putVerifyCodeVO(VerifyCodeVO verifyCodeVO){
+        getSession().setAttribute(VERIFYCODE_IN_SESSION,verifyCodeVO);
+    }
+
+    public static VerifyCodeVO getVerifyCodeVO(){
+        return (VerifyCodeVO) getSession().getAttribute(VERIFYCODE_IN_SESSION);
     }
 }

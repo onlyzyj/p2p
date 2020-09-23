@@ -37,4 +37,9 @@ public class BidConst {
 	public static final String INIT_ADMIN_NAME = "admin";
 
 	public static final String INIT_ADMIN_PASSWORD = "1234";
+
+	/**
+	 * 手机短信验证有效时间
+	 */
+	public static final int VERIFY_VALIDATE_SECOND = 300;
 }

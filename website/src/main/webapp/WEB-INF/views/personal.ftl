@@ -9,7 +9,57 @@
 		<link type="text/css" rel="stylesheet" href="/css/account.css" />
 		
 		<script type="text/javascript">
+			$(function () {
+				//用$("#showBindPhoneModal").size()>0判断是否存在id为showBindPhoneModal的标签
+				if ($("#showBindPhoneModal").size()>0){
+					//点击立刻绑定，弹出发送验证码的窗口
+					$("#showBindPhoneModal").click(function () {
+						$("#bindPhoneModal").modal("show");
+					});
+					//给发送短信的按钮添加时间
+					$("#sendVerifyCode").click(function () {
+						var _this = $(this);
+						_this.attr("disabled",true);
+						$.ajax({
+							url:"/sendVerifyCode.do",
+							dataType:"json",
+							type:"POST",
+							data:{phoneNumber:$("#phoneNumber").val()},
+							success:function (data) {
+								if (data.success){
+									var sec = 90;
+									var timer = window.setInterval(function () {
+										sec--;
+										if (sec>0){
+											_this.text(sec+"秒重新发送");
+										}else{
+											window.clearInterval(timer);
+											_this.text("重新发送验证码");
+											_this.attr("disabled",false);
+										}
 
+									},1000);
+								}else{
+									$.messager.popup(data.msg);
+									_this.attr("disabled",false);
+								}
+							}
+						});
+					});
+
+					//给提交窗口绑定按钮事件
+					$("#bindPhoneForm").ajaxForm(function(data){
+						if (data.success){
+							window.location.reload();
+						}else{
+							$.messager.popup(data.msg);
+						}
+					});
+					$("#bindPhone").click(function () {
+						$("#bindPhoneForm").submit();
+					})
+				}
+			})
 		</script>
 	</head>
 	<body>
@@ -70,164 +120,164 @@
 								</div>
 							</div>
 							
-<#--							<div class="el-account-info top-margin">-->
-<#--								<div class="row">-->
-<#--									<div class="col-sm-4">-->
-<#--										<div class="el-accoun-auth">-->
-<#--											<div class="el-accoun-auth-left">-->
-<#--												<img src="images/shiming.png" />-->
-<#--											</div>-->
-<#--											<div class="el-accoun-auth-right">-->
-<#--												<h5>实名认证</h5>-->
-<#--												<#if userinfo.isRealAuth >-->
-<#--												<p>-->
-<#--													已认证-->
-<#--													<a href="#">查看</a>-->
-<#--												</p>-->
-<#--												<#else>-->
-<#--												<p>-->
-<#--													未认证-->
-<#--													<a href="/realAuth.do" id="">立刻绑定</a>-->
-<#--												</p>-->
-<#--												</#if>-->
-<#--											</div>-->
-<#--											<div class="clearfix"></div>-->
-<#--											<p class="info">实名认证之后才能在平台投资</p>-->
-<#--										</div>-->
-<#--									</div>-->
-<#--									<div class="col-sm-4">-->
-<#--										<div class="el-accoun-auth">-->
-<#--											<div class="el-accoun-auth-left">-->
-<#--												<img src="images/shouji.jpg" />-->
-<#--											</div>-->
-<#--											<div class="el-accoun-auth-right">-->
-<#--												<h5>手机认证</h5>-->
-<#--												<#if userinfo.isBindPhone >-->
-<#--												<p>-->
-<#--													已认证-->
-<#--													<a href="#">查看</a>-->
-<#--												</p>-->
-<#--												<#else>-->
-<#--												<p>-->
-<#--													未认证-->
-<#--													<a href="javascript:;" id="showBindPhoneModal">立刻绑定</a>-->
-<#--												</p>-->
-<#--												</#if>												-->
-<#--											</div>-->
-<#--											<div class="clearfix"></div>-->
-<#--											<p class="info">可以收到系统操作信息,并增加使用安全性</p>-->
-<#--										</div>-->
-<#--									</div>-->
-<#--&lt;#&ndash;									<div class="col-sm-4">&ndash;&gt;-->
-<#--&lt;#&ndash;										<div class="el-accoun-auth">&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="el-accoun-auth-left">&ndash;&gt;-->
-<#--&lt;#&ndash;												<img src="images/youxiang.jpg" />&ndash;&gt;-->
-<#--&lt;#&ndash;											</div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="el-accoun-auth-right">&ndash;&gt;-->
-<#--&lt;#&ndash;												<h5>邮箱认证</h5>&ndash;&gt;-->
-<#--&lt;#&ndash;												<#if userinfo.isBindEmail>&ndash;&gt;-->
-<#--&lt;#&ndash;												<p>&ndash;&gt;-->
-<#--&lt;#&ndash;													已绑定&ndash;&gt;-->
-<#--&lt;#&ndash;													<a href="#">查看</a>&ndash;&gt;-->
-<#--&lt;#&ndash;												</p>&ndash;&gt;-->
-<#--&lt;#&ndash;												<#else>&ndash;&gt;-->
-<#--&lt;#&ndash;												<p>&ndash;&gt;-->
-<#--&lt;#&ndash;													未绑定&ndash;&gt;-->
-<#--&lt;#&ndash;													<a href="javascript:;" id="showBindEmailModal">去绑定</a>&ndash;&gt;-->
-<#--&lt;#&ndash;												</p>&ndash;&gt;-->
-<#--&lt;#&ndash;												</#if>&ndash;&gt;-->
-<#--&lt;#&ndash;											</div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="clearfix"></div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<p class="info">您可以设置邮箱来接收重要信息</p>&ndash;&gt;-->
-<#--&lt;#&ndash;										</div>&ndash;&gt;-->
-<#--&lt;#&ndash;									</div>&ndash;&gt;-->
-<#--								</div>-->
-<#--&lt;#&ndash;								<div class="row">&ndash;&gt;-->
-<#--&lt;#&ndash;									<div class="col-sm-4">&ndash;&gt;-->
-<#--&lt;#&ndash;										<div class="el-accoun-auth">&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="el-accoun-auth-left">&ndash;&gt;-->
-<#--&lt;#&ndash;												<img src="images/baozhan.jpg" />&ndash;&gt;-->
-<#--&lt;#&ndash;											</div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="el-accoun-auth-right">&ndash;&gt;-->
-<#--&lt;#&ndash;												<h5>VIP会员</h5>&ndash;&gt;-->
-<#--&lt;#&ndash;												<p>&ndash;&gt;-->
-<#--&lt;#&ndash;													普通用户&ndash;&gt;-->
-<#--&lt;#&ndash;													<a href="#">查看</a>&ndash;&gt;-->
-<#--&lt;#&ndash;												</p>&ndash;&gt;-->
-<#--&lt;#&ndash;											</div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<div class="clearfix"></div>&ndash;&gt;-->
-<#--&lt;#&ndash;											<p class="info">VIP会员，让你更快捷的投资</p>&ndash;&gt;-->
-<#--&lt;#&ndash;										</div>&ndash;&gt;-->
-<#--&lt;#&ndash;									</div>&ndash;&gt;-->
-<#--&lt;#&ndash;								</div>&ndash;&gt;-->
-<#--							</div>-->
+							<div class="el-account-info top-margin">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="el-accoun-auth">
+											<div class="el-accoun-auth-left">
+												<img src="images/shiming.png" />
+											</div>
+											<div class="el-accoun-auth-right">
+												<h5>实名认证</h5>
+												<#if true >
+												<p>
+													已认证
+													<a href="#">查看</a>
+												</p>
+												<#else>
+												<p>
+													未认证
+													<a href="/realAuth.do" id="">立刻绑定</a>
+												</p>
+												</#if>
+											</div>
+											<div class="clearfix"></div>
+											<p class="info">实名认证之后才能在平台投资</p>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="el-accoun-auth">
+											<div class="el-accoun-auth-left">
+												<img src="images/shouji.jpg" />
+											</div>
+											<div class="el-accoun-auth-right">
+												<h5>手机认证</h5>
+												<#if userinfo.isBindPhone >
+												<p>
+													已认证
+													<a href="#">查看</a>
+												</p>
+												<#else>
+												<p>
+													未认证
+													<a href="javascript:;" id="showBindPhoneModal">立刻绑定</a>
+												</p>
+												</#if>
+											</div>
+											<div class="clearfix"></div>
+											<p class="info">可以收到系统操作信息,并增加使用安全性</p>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="el-accoun-auth">
+											<div class="el-accoun-auth-left">
+												<img src="images/youxiang.jpg" />
+											</div>
+											<div class="el-accoun-auth-right">
+												<h5>邮箱认证</h5>
+												<#if true>
+												<p>
+													已绑定
+													<a href="#">查看</a>
+												</p>
+												<#else>
+												<p>
+													未绑定
+													<a href="javascript:;" id="showBindEmailModal">去绑定</a>
+												</p>
+												</#if>
+											</div>
+											<div class="clearfix"></div>
+											<p class="info">您可以设置邮箱来接收重要信息</p>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="el-accoun-auth">
+											<div class="el-accoun-auth-left">
+												<img src="images/baozhan.jpg" />
+											</div>
+											<div class="el-accoun-auth-right">
+												<h5>VIP会员</h5>
+												<p>
+													普通用户
+													<a href="#">查看</a>
+												</p>
+											</div>
+											<div class="clearfix"></div>
+											<p class="info">VIP会员，让你更快捷的投资</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>		
 		
-<#--		<#if !userinfo.isBindPhone>-->
-<#--		<div class="modal fade" id="bindPhoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
-<#--		  <div class="modal-dialog" role="document">-->
-<#--		    <div class="modal-content">-->
-<#--		      <div class="modal-header">-->
-<#--			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-<#--			<h4 class="modal-title" id="exampleModalLabel">绑定手机</h4>-->
-<#--		      </div>-->
-<#--		      <div class="modal-body">-->
-<#--				<form class="form-horizontal" id="bindPhoneForm" method="post" action="/bindPhone.do">-->
-<#--					<div class="form-group">-->
-<#--						    <label for="phoneNumber" class="col-sm-2 control-label">手机号:</label>-->
-<#--						    <div class="col-sm-4">-->
-<#--						      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" />-->
-<#--						      <button id="sendVerifyCode" class="btn btn-primary" type="button" autocomplate="off">发送验证码</button>-->
-<#--						    </div>-->
-<#--						</div>-->
-<#--						<div class="form-group">-->
-<#--						    <label for="verifyCode" class="col-sm-2 control-label">验证码:</label>-->
-<#--						    <div class="col-sm-4">-->
-<#--						      <input type="text" class="form-control" id="verifyCode" name="verifyCode" />-->
-<#--						    </div>-->
-<#--						</div>-->
-<#--				</form>-->
-<#--		      </div>-->
-<#--		      <div class="modal-footer">-->
-<#--				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
-<#--				<button type="button" class="btn btn-primary" id="bindPhone">保存</button>-->
-<#--		      </div>-->
-<#--		    </div>-->
-<#--		  </div>-->
-<#--		</div>-->
-<#--		</#if>-->
-<#--		-->
-<#--		-->
-<#--		<#if !userinfo.isBindEmail>-->
-<#--		<div class="modal fade" id="bindEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">-->
-<#--		  <div class="modal-dialog" role="document">-->
-<#--		    <div class="modal-content">-->
-<#--		      <div class="modal-header">-->
-<#--			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-<#--			<h4 class="modal-title" id="exampleModalLabel">绑定邮箱</h4>-->
-<#--		      </div>-->
-<#--		      <div class="modal-body">-->
-<#--				<form class="form-horizontal" id="bindEmailForm" method="post" action="/sendEmail.do">-->
-<#--					<div class="form-group">-->
-<#--					    <label for="email" class="col-sm-2 control-label">Email:</label>-->
-<#--					    <div class="col-sm-4">-->
-<#--					      <input type="text" class="form-control" id="email" name="email" />-->
-<#--					    </div>-->
-<#--					</div>-->
-<#--				</form>-->
-<#--		      </div>-->
-<#--		      <div class="modal-footer">-->
-<#--				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>-->
-<#--				<button type="button" class="btn btn-primary" id="bindEmail">保存</button>-->
-<#--		      </div>-->
-<#--		    </div>-->
-<#--		  </div>-->
-<#--		</div>-->
-<#--		</#if>-->
+		<#if !false>
+		<div class="modal fade" id="bindPhoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="exampleModalLabel">绑定手机</h4>
+		      </div>
+		      <div class="modal-body">
+				<form class="form-horizontal" id="bindPhoneForm" method="post" action="/bindPhone.do">
+					<div class="form-group">
+						    <label for="phoneNumber" class="col-sm-2 control-label">手机号:</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" />
+						      <button id="sendVerifyCode" class="btn btn-primary" type="button" autocomplate="off">发送验证码</button>
+						    </div>
+						</div>
+						<div class="form-group">
+						    <label for="verifyCode" class="col-sm-2 control-label">验证码:</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control" id="verifyCode" name="verifyCode" />
+						    </div>
+						</div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="bindPhone">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</#if>
+
+
+		<#if !true>
+		<div class="modal fade" id="bindEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="exampleModalLabel">绑定邮箱</h4>
+		      </div>
+		      <div class="modal-body">
+				<form class="form-horizontal" id="bindEmailForm" method="post" action="/sendEmail.do">
+					<div class="form-group">
+					    <label for="email" class="col-sm-2 control-label">Email:</label>
+					    <div class="col-sm-4">
+					      <input type="text" class="form-control" id="email" name="email" />
+					    </div>
+					</div>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary" id="bindEmail">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</#if>
 		
 		
 		<#include "common/footer-tpl.ftl" />

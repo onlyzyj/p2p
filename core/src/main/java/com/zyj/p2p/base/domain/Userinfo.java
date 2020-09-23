@@ -1,5 +1,6 @@
 package com.zyj.p2p.base.domain;
 
+import com.zyj.p2p.base.util.BitStatesUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,4 +27,15 @@ public class Userinfo extends BaseDomian {
     private SystemDictionaryItem educationBackground;//
     private SystemDictionaryItem houseCondition;//
 
+    public boolean getIsBindPhone(){
+        return phoneNumber != null;
+    }
+
+    /**
+     * 添加状态码
+     * @param opBindPhone
+     */
+    public void addState(Long opBindPhone) {
+        setBitState(BitStatesUtils.addState(bitState,opBindPhone));
+    }
 }

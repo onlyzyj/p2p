@@ -12,5 +12,7 @@ public interface UserinfoService {
     void add(Userinfo userinfo);
 
     Userinfo get(Long id);
+
+    void bindPhone(String phoneNumber, String verifyCode);
 }
 
