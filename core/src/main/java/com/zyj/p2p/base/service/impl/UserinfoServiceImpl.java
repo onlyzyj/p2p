@@ -1,13 +1,21 @@
 package com.zyj.p2p.base.service.impl;
 
+import com.zyj.p2p.base.domain.MailVerify;
 import com.zyj.p2p.base.domain.Userinfo;
+import com.zyj.p2p.base.mapper.MailVerifyMapper;
 import com.zyj.p2p.base.mapper.UserinfoMapper;
 import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.service.VerifyCodeService;
+import com.zyj.p2p.base.util.BidConst;
 import com.zyj.p2p.base.util.BitStatesUtils;
+import com.zyj.p2p.base.util.DateUtil;
 import com.zyj.p2p.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author onlyzyj
@@ -15,6 +23,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserinfoServiceImpl implements UserinfoService {
+
+    @Value("${mail.hostUrl}")
+    private String hostUrl;
+
+    @Autowired
+    private MailVerifyMapper mailVerifyMapper;
 
     @Autowired
     private UserinfoMapper userinfoMapper;
@@ -56,5 +70,50 @@ public class UserinfoServiceImpl implements UserinfoService {
                 throw  new RuntimeException("绑定手机失败");
             }
         }
+    }
+
+    @Override
+    public void sendEmail(String email) {
+        //判断当前用户绑没绑定邮箱
+        Userinfo current = get(UserContext.getCurrent().getId());
+        if (!current.getIsBindEmail()){
+            String uuid = UUID.randomUUID().toString();
+            try {
+                StringBuilder content = new StringBuilder(100)
+                        .append("点击<a href='").append(this.hostUrl)
+                        .append("bindEmail.do?uuid=").append(uuid)
+                        .append("'>这里</a>完成邮箱绑定,有效期为")
+                        .append(BidConst.VERIFYEMAIL_VAILDATE_DAY).append("天");
+                System.out.println("发送邮件"+email+"发送内容"+content);
+                MailVerify mailVerify = new MailVerify();
+                mailVerify.setEmail(email);
+                mailVerify.setSendDate(new Date());
+                mailVerify.setUserinfoId(current.getId());
+                mailVerify.setUuid(uuid);
+                mailVerifyMapper.insert(mailVerify);
+            }catch (Exception re){
+                re.printStackTrace();
+                throw new RuntimeException("邮件发送失败");
+            }
+        }
+    }
+
+    @Override
+    public void bindEmail(String uuid) {
+        MailVerify mailVerify = mailVerifyMapper.selectByUUID(uuid);
+        if (mailVerify != null){
+            //判断当前用户绑没绑定邮箱
+            Userinfo current = get(mailVerify.getUserinfoId());
+            if (!current.getIsBindEmail()){
+                //判断有效期
+                if (DateUtil.secondsBetween(new Date(),mailVerify.getSendDate())<= BidConst.VERIFYEMAIL_VAILDATE_DAY * 24 * 3600){
+                    current.setEmail(mailVerify.getEmail());
+                    current.addState(BitStatesUtils.OP_BIND_EMAIL);
+                    update(current);
+                    return;
+                }
+            }
+        }
+        throw new RuntimeException("绑定失败");
     }
 }

@@ -31,6 +31,10 @@ public class Userinfo extends BaseDomian {
         return phoneNumber != null;
     }
 
+    public boolean getIsBindEmail(){
+        return email != null;
+    }
+
     /**
      * 添加状态码
      * @param opBindPhone
@@ -38,4 +42,35 @@ public class Userinfo extends BaseDomian {
     public void addState(Long opBindPhone) {
         setBitState(BitStatesUtils.addState(bitState,opBindPhone));
     }
+
+    /**
+     * 返回用户是否已经填写了基本资料
+     *
+     * @return
+     */
+    public boolean getIsBasicInfo() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_BASIC_INFO);
+    }
+
+    /**
+     * 返回用户是否已经实名认证
+     *
+     * @return
+     */
+    public boolean getIsRealAuth() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_REAL_AUTH);
+    }
+
+    /**
+     * 返回用户是否视频认证
+     *
+     * @return
+     */
+    public boolean getIsVedioAuth() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_VEDIO_AUTH);
+    }
+
 }

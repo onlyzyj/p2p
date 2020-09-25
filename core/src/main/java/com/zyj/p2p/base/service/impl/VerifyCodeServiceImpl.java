@@ -1,5 +1,6 @@
 package com.zyj.p2p.base.service.impl;
 
+import com.zyj.p2p.base.domain.Userinfo;
 import com.zyj.p2p.base.service.VerifyCodeService;
 import com.zyj.p2p.base.util.BidConst;
 import com.zyj.p2p.base.util.DateUtil;
@@ -100,4 +101,5 @@ public class VerifyCodeServiceImpl implements VerifyCodeService {
             return false;
         }
     }
+
 }

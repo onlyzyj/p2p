@@ -2,6 +2,7 @@ package com.zyj.p2p.base.controller;
 
 import com.zyj.p2p.base.service.VerifyCodeService;
 import com.zyj.p2p.base.util.JSONResult;
+import com.zyj.p2p.base.util.RequireLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class VerifyCodeController {
     @Autowired
     private VerifyCodeService verifyCodeService;
 
+    @RequireLogin
     @ResponseBody
     @RequestMapping("sendVerifyCode")
     public JSONResult phoneVerify(String phoneNumber){

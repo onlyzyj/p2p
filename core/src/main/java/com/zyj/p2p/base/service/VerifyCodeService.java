@@ -8,4 +8,5 @@ public interface VerifyCodeService {
     void sendVerifyCode(String phoneNumber);
 
     boolean verify(String phoneNumber, String verifyCode);
+
 }

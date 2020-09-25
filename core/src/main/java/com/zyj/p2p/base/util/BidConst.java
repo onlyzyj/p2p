@@ -42,4 +42,15 @@ public class BidConst {
 	 * 手机短信验证有效时间
 	 */
 	public static final int VERIFY_VALIDATE_SECOND = 300;
+
+	/**
+	 * 验证邮箱的有效期
+	 */
+	public static final int VERIFYEMAIL_VAILDATE_DAY = 5;
+
+	/**
+	 * 要能借款需要达到的最低风控分数
+	 */
+	public static final int BASE_BORROW_SCORE = 30;
+
 }

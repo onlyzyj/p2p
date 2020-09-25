@@ -58,6 +58,25 @@
 					$("#bindPhone").click(function () {
 						$("#bindPhoneForm").submit();
 					})
+				};
+
+				if($("#showBindEmailModal").size()>0){
+					//点击立刻绑定,弹出模式窗口
+					$("#showBindEmailModal").click(function(){
+						$("#bindEmailForm")[0].reset();
+						$("#bindEmailModal").modal("show");
+					});
+					//给提交绑定窗口按钮添加事件
+					$("#bindEmailForm").ajaxForm(function(data){
+						if(data.success){
+							window.location.reload();
+						}else{
+							$.messager.popup(data.msg);
+						}
+					});
+					$("#bindEmail").click(function(){
+						$("#bindEmailForm").submit();
+					});
 				}
 			})
 		</script>
@@ -175,7 +194,7 @@
 											</div>
 											<div class="el-accoun-auth-right">
 												<h5>邮箱认证</h5>
-												<#if true>
+												<#if userinfo.isBindEmail >
 												<p>
 													已绑定
 													<a href="#">查看</a>
@@ -217,7 +236,7 @@
 			</div>
 		</div>		
 		
-		<#if !false>
+		<#if !userinfo.isBindPhone>
 		<div class="modal fade" id="bindPhoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
@@ -252,7 +271,7 @@
 		</#if>
 
 
-		<#if !true>
+		<#if !userinfo.isBindEmail>
 		<div class="modal fade" id="bindEmailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">

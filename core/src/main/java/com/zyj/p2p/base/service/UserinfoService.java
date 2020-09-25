@@ -14,5 +14,9 @@ public interface UserinfoService {
     Userinfo get(Long id);
 
     void bindPhone(String phoneNumber, String verifyCode);
+
+    void sendEmail(String email);
+
+    void bindEmail(String uuid);
 }
 

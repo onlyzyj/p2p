@@ -10,4 +10,5 @@ public interface AccountMapper {
     Account selectByPrimaryKey(Long id);
 
     int updateByPrimaryKey(Account record);
+
 }
