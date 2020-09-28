@@ -27,4 +27,30 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
 
+  <sql id="base_column">
+  	id, parentId, title, sequence
+  </sql>
+  <sql id="base_where">
+    <where>
+      <if test="parentId!=null">
+        AND parentId =  #{parentId}
+      </if>
+      <if test="keyword!=null">
+        AND title LIKE concat('%',#{keyword},'%')
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryForCount" resultType="int">
+    SELECT count(id)
+    FROM systemdictionaryitem
+    <include refid="base_where" />
+  </select>
+
+  <select id="query" resultMap="BaseResultMap">
+    SELECT <include refid="base_column" />
+    FROM systemdictionaryitem
+    <include refid="base_where" />
+    LIMIT #{start},#{pageSize}
+  </select>
 </mapper>
