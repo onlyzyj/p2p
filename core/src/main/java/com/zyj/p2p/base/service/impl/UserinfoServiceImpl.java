@@ -116,4 +116,20 @@ public class UserinfoServiceImpl implements UserinfoService {
         }
         throw new RuntimeException("绑定失败");
     }
+
+    @Override
+    public void updateBasicInfo(Userinfo userinfo) {
+        Userinfo old = get(UserContext.getCurrent().getId());
+        // 拷贝这次要修改的内容
+        old.setEducationBackground(userinfo.getEducationBackground());
+        old.setHouseCondition(userinfo.getHouseCondition());
+        old.setIncomeGrade(userinfo.getIncomeGrade());
+        old.setKidCount(userinfo.getKidCount());
+        old.setMarriage(userinfo.getMarriage());
+        // 判断用户是否第一次完善用户信息，是的话给其添加状态码
+        if (!old.getIsBasicInfo()) {
+            old.addState(BitStatesUtils.OP_BASIC_INFO);
+        }
+        update(old);
+    }
 }

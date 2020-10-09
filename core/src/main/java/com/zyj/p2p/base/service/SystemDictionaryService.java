@@ -26,4 +26,6 @@ public interface SystemDictionaryService {
     List<SystemDictionary> listAllDics();
 
     void saveAndUpdateItem(SystemDictionaryItem systemDictionaryItem);
+
+    List<SystemDictionaryItem> listByParentSn(String parentSn);
 }

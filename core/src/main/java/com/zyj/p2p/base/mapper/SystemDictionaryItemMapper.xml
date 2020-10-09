@@ -53,4 +53,11 @@
     <include refid="base_where" />
     LIMIT #{start},#{pageSize}
   </select>
+
+  <select id="listByParentSn" resultMap="BaseResultMap">
+    select sdi.title as title,sdi.id as id from
+    systemdictionaryitem sdi join systemdictionary d on sdi.parentId = d.id
+    WHERE d.sn =#{parentSn}
+  	ORDER BY sdi.sequence ASC
+  </select>
 </mapper>

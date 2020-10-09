@@ -18,5 +18,7 @@ public interface UserinfoService {
     void sendEmail(String email);
 
     void bindEmail(String uuid);
+
+    void updateBasicInfo(Userinfo userinfo);
 }
 

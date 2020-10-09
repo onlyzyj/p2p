@@ -70,4 +70,9 @@ public class SystemDictionaryServiceImpl implements SystemDictionaryService {
             systemDictionaryItemMapper.insert(systemDictionaryItem);
         }
     }
+
+    @Override
+    public List<SystemDictionaryItem> listByParentSn(String parentSn) {
+        return systemDictionaryItemMapper.listByParentSn(parentSn);
+    }
 }
