@@ -72,6 +72,7 @@
 				multi:false,
 				swf:"/js/plugins/uploadify/uploadify.swf",
 				uploader:"/realAuthUpload.do",
+				//onSelect是隐藏文件名字的显示
 				overrideEvents:["onUploadSuccess","onSelect"],
 				onUploadSuccess:function(file,data){
 					$("#uploadImg1").attr("src",data);

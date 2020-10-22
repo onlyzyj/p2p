@@ -132,4 +132,9 @@ public class UserinfoServiceImpl implements UserinfoService {
         }
         update(old);
     }
+
+    @Override
+    public Userinfo getCurrent() {
+        return get(UserContext.getCurrent().getId());
+    }
 }

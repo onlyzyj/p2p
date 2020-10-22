@@ -44,4 +44,12 @@
 		<!-- 配置视图的输出HTML的contentType -->
 		<property name="contentType" value="text/html;charset=UTF-8" />
 	</bean>
+
+	<!--处理上传 -->
+	<bean
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+			id="multipartResolver">
+		<!-- spring中，#{}中的的内容可以表达式，进行计算，因此value的值也可以是#{1024*1024*100} -->
+		<property name="maxUploadSize" value="100000000" />
+	</bean>
 </beans>

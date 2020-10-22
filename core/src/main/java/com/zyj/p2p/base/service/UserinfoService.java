@@ -20,5 +20,7 @@ public interface UserinfoService {
     void bindEmail(String uuid);
 
     void updateBasicInfo(Userinfo userinfo);
+
+    Userinfo getCurrent();
 }
 
