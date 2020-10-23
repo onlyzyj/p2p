@@ -78,6 +78,7 @@
 				});
 			},
 			//用来告诉typeahead怎么显示json对象中的内容
+			//不写的话，json对象里必须有name属性，会自动显示name属性
 			displayText:function(item){
 				return item.username
 			}
