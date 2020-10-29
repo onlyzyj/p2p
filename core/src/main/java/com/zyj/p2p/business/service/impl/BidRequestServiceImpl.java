@@ -2,20 +2,25 @@ package com.zyj.p2p.business.service.impl;
 
 import com.zyj.p2p.base.domain.Account;
 import com.zyj.p2p.base.domain.Userinfo;
-import com.zyj.p2p.base.mapper.UserinfoMapper;
+import com.zyj.p2p.base.query.PageResult;
 import com.zyj.p2p.base.service.AccountService;
 import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.util.BidConst;
 import com.zyj.p2p.base.util.BitStatesUtils;
 import com.zyj.p2p.base.util.UserContext;
 import com.zyj.p2p.business.domain.BidRequest;
+import com.zyj.p2p.business.domain.BidRequestAuditHistory;
 import com.zyj.p2p.business.mapper.BidRequestMapper;
+import com.zyj.p2p.business.mapper.BidRequestAuditHistoryMapper;
+import com.zyj.p2p.business.query.BidRequestQueryObject;
 import com.zyj.p2p.business.service.BidRequestService;
 import com.zyj.p2p.business.util.CalculatetUtil;
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author onlyzyj
@@ -32,6 +37,9 @@ public class BidRequestServiceImpl implements BidRequestService {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private BidRequestAuditHistoryMapper bidRequestAuditHistoryMapper;
 
     @Override
     public void update(BidRequest bidRequest) {
@@ -114,6 +122,54 @@ public class BidRequestServiceImpl implements BidRequestService {
 //            Userinfo userinfo = this.userinfoService.getCurrent();
 //            userinfo.addState(BitStatesUtils.OP_HAS_BIDREQUEST_PROCESS);
 //            this.userinfoService.update(userinfo);
+        }
+    }
+
+    @Override
+    public PageResult query(BidRequestQueryObject qo) {
+        int count = bidRequestMapper.queryForCount(qo);
+        if (count > 0) {
+            List<BidRequest> list = bidRequestMapper.query(qo);
+            return new PageResult(list, count, qo.getCurrentPage(), qo.getPageSize());
+        }
+        return PageResult.empty(qo.getPageSize());
+    }
+
+    @Override
+    public void publishAudit(Long id, String remark, int state) {
+        // 查出bidrqeuest;
+        BidRequest br = this.bidRequestMapper.selectByPrimaryKey(id);
+        // 判断状态
+        if (br != null
+                && br.getBidRequestState() == BidConst.BIDREQUEST_STATE_PUBLISH_PENDING) {
+            // 创建一个审核历史对象
+            BidRequestAuditHistory history = new BidRequestAuditHistory();
+            history.setApplier(br.getCreateUser());
+            history.setApplyTime(br.getApplyTime());
+            history.setAuditType(BidRequestAuditHistory.PUBLISH_AUDIT);
+            history.setAuditor(UserContext.getCurrent());
+            history.setAuditTime(new Date());
+            history.setRemark(remark);
+            history.setState(state);
+            history.setBidRequestId(br.getId());
+            this.bidRequestAuditHistoryMapper.insert(history);
+
+            if (state == BidRequestAuditHistory.STATE_AUDIT) {
+                // 如果审核通过:修改标的状态,设置风控意见;
+                br.setBidRequestState(BidConst.BIDREQUEST_STATE_BIDDING);
+                br.setDisableDate(DateUtils.addDays(new Date(),
+                        br.getDisableDays()));
+                br.setPublishTime(new Date());
+                br.setNote(remark);
+            } else {
+                // 如果审核失败:修改标的状态,用户去掉状态码;
+                br.setBidRequestState(BidConst.BIDREQUEST_STATE_PUBLISH_REFUSE);
+                Userinfo applier = this.userinfoService.get(br.getCreateUser()
+                        .getId());
+                applier.removeState(BitStatesUtils.OP_HAS_BIDREQUEST_PROCESS);
+                this.userinfoService.update(applier);
+            }
+            this.update(br);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.zyj.p2p.business.domain;
 
+import com.alibaba.fastjson.JSONObject;
 import com.zyj.p2p.base.domain.BaseDomian;
 import com.zyj.p2p.base.domain.Logininfo;
 import com.zyj.p2p.base.util.BidConst;
@@ -8,12 +9,17 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.zyj.p2p.base.util.BidConst.*;
 
 /**
  * 借款对象
  */
-@Setter@Getter
+@Setter
+@Getter
 public class BidRequest extends BaseDomian {
     private int version;// 版本号
     private int returnType;// 还款类型(等额本息)
@@ -35,4 +41,51 @@ public class BidRequest extends BaseDomian {
     private List<Bid> bids;// 针对该借款的投标
     private Date applyTime;// 申请时间
     private Date publishTime;// 发标时间
+
+    public String getBidRequestStateDisplay() {
+        switch (this.bidRequestState) {
+            case BIDREQUEST_STATE_PUBLISH_PENDING:
+                return "待发布";
+            case BIDREQUEST_STATE_BIDDING:
+                return "招标中";
+            case BIDREQUEST_STATE_UNDO:
+                return "已撤销";
+            case BIDREQUEST_STATE_BIDDING_OVERDUE:
+                return "流标";
+            case BIDREQUEST_STATE_APPROVE_PENDING_1:
+                return "满标一审";
+            case BIDREQUEST_STATE_APPROVE_PENDING_2:
+                return "满标二审";
+            case BIDREQUEST_STATE_REJECTED:
+                return "满标审核被拒";
+            case BIDREQUEST_STATE_PAYING_BACK:
+                return "还款中";
+            case BIDREQUEST_STATE_COMPLETE_PAY_BACK:
+                return "完成";
+            case BIDREQUEST_STATE_PAY_BACK_OVERDUE:
+                return "逾期";
+            case BIDREQUEST_STATE_PUBLISH_REFUSE:
+                return "发标拒绝";
+            default:
+                return "";
+        }
+    }
+
+    public String getReturnTypeDisplay() {
+        return returnType == BidConst.RETURN_TYPE_MONTH_INTEREST ? "按月到期"
+                : "等额本息";
+    }
+
+    public String getJsonString() {
+        Map<String, Object> json = new HashMap<>();
+        json.put("id", id);
+        json.put("username", this.createUser.getUsername());
+        json.put("title", title);
+        json.put("bidRequestAmount", bidRequestAmount);
+        json.put("currentRate", currentRate);
+        json.put("monthes2Return", monthes2Return);
+        json.put("returnType", getReturnTypeDisplay());
+        json.put("totalRewardAmount", totalRewardAmount);
+        return JSONObject.toJSONString(json);
+    }
 }

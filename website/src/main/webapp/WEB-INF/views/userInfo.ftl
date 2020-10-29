@@ -56,7 +56,8 @@
 								<div class="col-sm-8">
 									<p class="form-control-static">
 										<#if (userinfo.isRealAuth)>
-											${userinfo.anonymousRealName}
+<#--											${userinfo.anonymousRealName}-->
+											${userinfo.realName}
 										<#else>
 											未认证
 											<a href="/realAuth.do">[马上认证]</a>
@@ -72,7 +73,8 @@
 								<div class="col-sm-8">
 									<p class="form-control-static">	
 										<#if (userinfo.isRealAuth)>
-											${userinfo.anonymousIdNumber}
+<#--											${userinfo.anonymousIdNumber}-->
+											${userinfo.idNumber}
 										<#else>
 											未认证
 											<a href="/realAuth.do">[马上认证]</a>

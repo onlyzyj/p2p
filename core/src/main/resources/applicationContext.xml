@@ -31,7 +31,9 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:myBatis-config.xml"/>
 		<property name="typeAliasesPackage" value="com.zyj.p2p"/>
-		<property name="mapperLocations" value="classpath:com/zyj/p2p/*/mapper/*Mapper.xml"/>
+		<!-- 当mybatis的xml文件和mapper接口不在相同包下时，需要用mapperLocations属性指定xml文件的路径。
+         *是个通配符，代表所有的文件，**代表所有目录下 -->
+		<property name="mapperLocations" value="classpath*:com/zyj/p2p/*/mapper/*Mapper.xml"/>
 	</bean>
 
 	<!--	事务管理器-->

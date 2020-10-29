@@ -43,6 +43,11 @@ public class Userinfo extends BaseDomian {
         setBitState(BitStatesUtils.addState(bitState,opBindPhone));
     }
 
+    public void removeState(long state) {
+        this.setBitState(BitStatesUtils.removeState(this.bitState, state));
+    }
+
+
     /**
      * 返回用户是否已经填写了基本资料
      *
