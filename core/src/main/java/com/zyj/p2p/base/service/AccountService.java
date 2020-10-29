@@ -15,4 +15,6 @@ public interface AccountService {
     void add(Account account);
 
     Account get(Long id);
+
+    Account getCurrent();
 }

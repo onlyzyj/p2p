@@ -30,8 +30,8 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="configLocation" value="classpath:myBatis-config.xml"/>
-		<property name="typeAliasesPackage" value="com.zyj.p2p.base.domain"/>
-		<property name="mapperLocations" value="classpath:com/zyj/p2p/base/mapper/*Mapper.xml"/>
+		<property name="typeAliasesPackage" value="com.zyj.p2p"/>
+		<property name="mapperLocations" value="classpath:com/zyj/p2p/*/mapper/*Mapper.xml"/>
 	</bean>
 
 	<!--	事务管理器-->
@@ -59,6 +59,6 @@
 	 -->
 	<!--	扫描mapper接口并产生实现类并放到spring容器中-->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.zyj.p2p.base.mapper" />
+		<property name="basePackage" value="com.zyj.p2p.base.mapper,com.zyj.p2p.business.mapper" />
 	</bean>
 </beans>

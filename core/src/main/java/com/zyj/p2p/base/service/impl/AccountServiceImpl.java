@@ -3,6 +3,7 @@ package com.zyj.p2p.base.service.impl;
 import com.zyj.p2p.base.domain.Account;
 import com.zyj.p2p.base.mapper.AccountMapper;
 import com.zyj.p2p.base.service.AccountService;
+import com.zyj.p2p.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account get(Long id) {
         return accountMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Account getCurrent() {
+        return get(UserContext.getCurrent().getId());
     }
 }

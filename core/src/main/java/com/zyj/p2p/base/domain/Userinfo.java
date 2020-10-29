@@ -73,4 +73,13 @@ public class Userinfo extends BaseDomian {
                 BitStatesUtils.OP_VEDIO_AUTH);
     }
 
+    /**
+     * 返回用户是否有借款在流程中
+     *
+     * @return
+     */
+    public boolean getHasBidRequestProcess() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_HAS_BIDREQUEST_PROCESS);
+    }
 }
