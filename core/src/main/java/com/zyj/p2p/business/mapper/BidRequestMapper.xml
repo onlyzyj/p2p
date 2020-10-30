@@ -105,6 +105,12 @@
       <if test="bidRequestState>-1">
         AND b.bidRequestState = #{bidRequestState}
       </if>
+      <if test="bidRequestStates!=null">
+        AND b.bidRequestState in
+        <foreach collection="bidRequestStates" item="state" open="(" close=")" separator=",">
+          #{state}
+        </foreach>
+      </if>
     </where>
   </sql>
   <select id="queryForCount" resultType="int">
@@ -117,6 +123,11 @@
     select <include refid="base_column"/>
     from `bidrequest` b JOIN logininfo l on  b.createUser_id = l.id
     <include refid="base_where"/>
-    limit #{start},#{pageSize}
+    <if test="orderBy!=null">
+      ORDER BY ${orderBy} ${orderType}
+    </if>
+    <if test="pageSize>0">
+      LIMIT #{start},#{pageSize}
+    </if>
   </select>
 </mapper>
