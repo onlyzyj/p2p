@@ -8,6 +8,7 @@ import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.util.BidConst;
 import com.zyj.p2p.base.util.BitStatesUtils;
 import com.zyj.p2p.base.util.UserContext;
+import com.zyj.p2p.business.domain.Bid;
 import com.zyj.p2p.business.domain.BidRequest;
 import com.zyj.p2p.business.domain.BidRequestAuditHistory;
 import com.zyj.p2p.business.mapper.BidRequestMapper;
@@ -171,5 +172,15 @@ public class BidRequestServiceImpl implements BidRequestService {
             }
             this.update(br);
         }
+    }
+
+    @Override
+    public BidRequest get(Long id) {
+        return bidRequestMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<BidRequestAuditHistory> listAuditHistoryByBidRequest(Long id) {
+        return bidRequestAuditHistoryMapper.listByBidRequest(id);
     }
 }

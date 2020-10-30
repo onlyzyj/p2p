@@ -15,12 +15,33 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="note" property="note" jdbcType="VARCHAR" />
-    <result column="disableDate" property="currentSum" jdbcType="TIMESTAMP" />
-    <result column="disableDays" property="currentSum" jdbcType="TINYINT" />
+    <result column="disableDate" property="disableDate" jdbcType="TIMESTAMP" />
+    <result column="disableDays" property="disableDays" jdbcType="TINYINT" />
     <result column="minBidAmount" property="minBidAmount" jdbcType="DECIMAL" />
     <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
-    <result column="publishTime" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="publishTime" property="publishTime" jdbcType="TIMESTAMP"/>
     <result column="returnType" property="returnType" jdbcType="TINYINT" />
+
+<!--    <id column="id" property="id" jdbcType="BIGINT" />-->
+<!--    <result column="version" property="version" jdbcType="INTEGER" />-->
+<!--    <result column="bidRequestType" property="bidRequestType" jdbcType="TINYINT" />-->
+<!--    <result column="bidRequestState" property="bidRequestState" jdbcType="TINYINT" />-->
+<!--    <result column="bidRequestAmount" property="bidRequestAmount" jdbcType="DECIMAL" />-->
+<!--    <result column="currentRate" property="currentRate" jdbcType="DECIMAL" />-->
+<!--    <result column="monthes2Return" property="monthes2Return" jdbcType="TINYINT" />-->
+<!--    <result column="bidCount" property="bidCount" jdbcType="INTEGER" />-->
+<!--    <result column="totalRewardAmount" property="totalRewardAmount" jdbcType="DECIMAL" />-->
+<!--    <result column="currentSum" property="currentSum" jdbcType="DECIMAL" />-->
+<!--    <result column="title" property="title" jdbcType="VARCHAR" />-->
+<!--    <result column="description" property="description" jdbcType="VARCHAR" />-->
+<!--    <result column="note" property="note" jdbcType="VARCHAR" />-->
+<!--    <result column="disableDate" property="disableDate" jdbcType="TIMESTAMP" />-->
+<!--    <result column="disableDays" property="disableDays" jdbcType="TINYINT" />-->
+<!--    <result column="minBidAmount" property="minBidAmount" jdbcType="DECIMAL" />-->
+<!--    <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />-->
+<!--    <result column="publishTime" property="publishTime" jdbcType="TIMESTAMP" />-->
+<!--    <result column="returnType" property="returnType" jdbcType="TINYINT" />-->
+
     <association property="createUser" javaType="Logininfo" columnPrefix="l_">
       <id column="id" property="id"/>
       <result column="username" property="username"/>
@@ -76,7 +97,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select <include refid="base_column" />
     from `bidrequest` b JOIN logininfo l on  b.createUser_id = l.id
-    where b.id = #{id,jdbcType=BIGINT}
+    where b.id = #{id}
   </select>
 
   <sql id="base_where">

@@ -37,4 +37,10 @@
     from `bidrequestaudithistory` h JOIN logininfo ap on h.applier_id = ap.id JOIN logininfo au on h.auditor_id=au.id
     where h.id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="listByBidRequest" resultMap="BaseResultMap">
+    select <include refid="base_column" />
+    from bidrequestaudithistory h JOIN logininfo ap on h.applier_id = ap.id JOIN logininfo au on h.auditor_id=au.id
+    where h.bidRequestId = #{bidRequestId}
+  </select>
 </mapper>

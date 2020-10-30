@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.zyj.p2p.base.domain.BaseDomian;
 import com.zyj.p2p.base.domain.Logininfo;
 import com.zyj.p2p.base.util.BidConst;
+import com.zyj.p2p.business.util.DecimalFormatUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +23,7 @@ import static com.zyj.p2p.base.util.BidConst.*;
  */
 @Setter
 @Getter
+@ToString
 public class BidRequest extends BaseDomian {
     private int version;// 版本号
     private int returnType;// 还款类型(等额本息)
@@ -41,6 +45,24 @@ public class BidRequest extends BaseDomian {
     private List<Bid> bids;// 针对该借款的投标
     private Date applyTime;// 申请时间
     private Date publishTime;// 发标时间
+
+    /**
+     * 计算当前投标进度
+     */
+    public BigDecimal getPersent() {
+        return currentSum.divide(bidRequestAmount, BidConst.DISPLAY_SCALE,
+                RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
+    }
+
+    /**
+     * 计算还需金额
+     *
+     * @return
+     */
+    public BigDecimal getRemainAmount() {
+        return DecimalFormatUtil.formatBigDecimal(
+                bidRequestAmount.subtract(currentSum), BidConst.DISPLAY_SCALE);
+    }
 
     public String getBidRequestStateDisplay() {
         switch (this.bidRequestState) {

@@ -14,4 +14,17 @@ public class BidRequestAuditHistory extends BaseAuditDomain {
 
     private Long bidRequestId;
     private int auditType;
+
+    public String getAuditTypeDisplay() {
+        switch (this.auditType) {
+            case PUBLISH_AUDIT:
+                return "发标前审核";
+            case FULL_AUDIT_1:
+                return "满标一审";
+            case FULL_AUDIT_2:
+                return "满标二审";
+            default:
+                return "";
+        }
+    }
 }

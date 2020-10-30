@@ -26,5 +26,7 @@ public interface UserFileService {
 
     PageResult query(UserFileQueryObject qo);
 
+    List<UserFile> queryForList(UserFileQueryObject qo);
+
     void audit(Long id, int state, int score, String remark);
 }

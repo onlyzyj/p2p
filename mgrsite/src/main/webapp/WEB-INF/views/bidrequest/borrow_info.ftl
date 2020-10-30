@@ -24,12 +24,14 @@
 		</style>
 		
 		<script type="text/javascript">
-			$(function(){
-				$("#retroclockbox").flipcountdown({
-					size:'xs',
-					beforeDateTime:"${bidRequest.disableDate?string('yyyy-MM-dd HH:mm:ss')}"
+			<#if bidRequest.disableDate??>
+				$(function(){
+					$("#retroclockbox").flipcountdown({
+						size:'xs',
+						beforeDateTime:"${bidRequest.disableDate?string('yyyy-MM-dd HH:mm:ss')}"
+					});
 				});
-			});
+			</#if>
 		</script>
 	</head>
 	<body>
@@ -109,7 +111,7 @@
 									<tr>
 										<td class="muted">风控意见</td>
 										<td class="text-info" style="padding-left: 10px;" colspan="3">
-											${bidRequest.note}
+											<#if bidRequest.note??>${bidRequest.note}</#if>
 										</td>
 									</tr>
 									<tr>
@@ -139,7 +141,7 @@
 								<tr>
 									<td colspan="2">
 									<div style="margin-bottom: 10px;" class="progress">
-										<div style="width: ${bidRequest.persent}" class="progress-bar progress-bar-info progress-bar-striped"></div>
+										<div style="width: ${bidRequest.persent}%" class="progress-bar progress-bar-info progress-bar-striped"></div>
 									</div>
 									</td>
 								</tr>
