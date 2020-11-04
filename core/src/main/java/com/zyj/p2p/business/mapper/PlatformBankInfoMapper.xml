@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zyj.p2p.business.mapper.PlatformBankInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zyj.p2p.business.domain.PlatformBankInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="bankName" property="bankName" jdbcType="VARCHAR" />
+    <result column="accountName" property="accountName" jdbcType="VARCHAR" />
+    <result column="accountNumber" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="bankforkName" property="bankForkName" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from `platformbankinfo`
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.zyj.p2p.business.domain.PlatformBankInfo" useGeneratedKeys="true" keyProperty="id" >
+    insert into `platformbankinfo` (bankName, accountName, accountNumber, 
+      bankforkName)
+    values (#{bankName,jdbcType=VARCHAR}, #{accountName,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR},
+      #{bankForkName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.zyj.p2p.business.domain.PlatformBankInfo" >
+    update `platformbankinfo`
+    set bankName = #{bankName,jdbcType=VARCHAR},
+      accountName = #{accountName,jdbcType=VARCHAR},
+      accountNumber = #{accountNumber,jdbcType=VARCHAR},
+      bankforkName = #{bankForkName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <sql id="base_column">
+    id, bankName, accountName, accountNumber, bankforkName
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select <include refid="base_column"/>
+    from `platformbankinfo`
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select <include refid="base_column"/>
+    from `platformbankinfo`
+  </select>
+
+  <select id="queryForCount" resultType="int">
+  	SELECT count(id)
+  	FROM platformbankinfo
+  </select>
+
+  <select id="query" resultMap="BaseResultMap">
+    SELECT <include refid="base_column"/>
+    FROM platformbankinfo
+  </select>
+</mapper>
