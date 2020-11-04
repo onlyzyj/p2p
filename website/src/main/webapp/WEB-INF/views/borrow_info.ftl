@@ -261,7 +261,7 @@
 								</td>
 								<td class="muted text-right" width="140px;">性别</td>
 								<td width="150px;" style="padding-left: 10px;" class="text-info">
-									${realAuth.sexDisplay}
+									${(realAuth.sexDisplay)!""}
 								</td>
 								<td class="muted text-right" width="140px;">住房条件</td>
 								<td width="150px;" style="padding-left: 10px;" class="text-info">
