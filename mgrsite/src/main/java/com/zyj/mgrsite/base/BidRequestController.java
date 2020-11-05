@@ -76,4 +76,56 @@ public class BidRequestController {
         model.addAttribute("userFiles",list);
         return "bidrequest/borrow_info";
     }
+
+    /**
+     * 满标一审列表
+     */
+    @RequestMapping("bidrequest_audit1_list")
+    public String bidRequestFullAudit1List(
+            @ModelAttribute("qo") BidRequestQueryObject qo, Model model) {
+        qo.setBidRequestState(BidConst.BIDREQUEST_STATE_APPROVE_PENDING_1);
+        model.addAttribute("pageResult", this.bidRequestService.query(qo));
+        return "bidrequest/audit1";
+    }
+
+    /**
+     * 满标一审
+     *
+     * @param id
+     * @param remark
+     * @param state
+     * @return
+     */
+    @RequestMapping("bidrequest_audit1")
+    @ResponseBody
+    public JSONResult bidRequestAudit1(Long id, String remark, int state) {
+        this.bidRequestService.fullAudit1(id, remark, state);
+        return new JSONResult();
+    }
+
+    /**
+     * 满标二审列表
+     */
+    @RequestMapping("bidrequest_audit2_list")
+    public String bidRequestFullAudit2List(
+            @ModelAttribute("qo") BidRequestQueryObject qo, Model model) {
+        qo.setBidRequestState(BidConst.BIDREQUEST_STATE_APPROVE_PENDING_2);
+        model.addAttribute("pageResult", this.bidRequestService.query(qo));
+        return "bidrequest/audit2";
+    }
+
+    /**
+     * 满标二审
+     *
+     * @param id
+     * @param remark
+     * @param state
+     * @return
+     */
+    @RequestMapping("bidrequest_audit2")
+    @ResponseBody
+    public JSONResult bidRequestAudit2(Long id, String remark, int state) {
+        this.bidRequestService.fullAudit2(id, remark, state);
+        return new JSONResult();
+    }
 }

@@ -6,6 +6,7 @@ import com.zyj.p2p.business.domain.BidRequest;
 import com.zyj.p2p.business.domain.BidRequestAuditHistory;
 import com.zyj.p2p.business.query.BidRequestQueryObject;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -39,4 +40,10 @@ public interface BidRequestService {
      * @return
      */
     List<BidRequest> listIndex(int size);
+
+    void bid(Long bidRequestId, BigDecimal amount);
+
+    void fullAudit1(Long id, String remark, int state);
+
+    void fullAudit2(Long id, String remark, int state);
 }

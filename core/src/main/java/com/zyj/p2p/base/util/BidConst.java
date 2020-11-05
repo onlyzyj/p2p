@@ -116,4 +116,13 @@ public class BidConst {
 	// 冻结金额减少
 	// 可用余额增加
 
+	/** ============系统账户流水类型============= */
+	public final static int SYSTEM_ACCOUNT_ACTIONTYPE_MANAGE_CHARGE = 1;// 系统账户收到账户管理费（借款管理费）
+	public final static int SYSTEM_ACCOUNT_ACTIONTYPE_INTREST_MANAGE_CHARGE = 2;// 系统账户收到利息管理费
+	public final static int SYSTEM_ACCOUNT_ACTIONTYPE_WITHDRAW_MANAGE_CHARGE = 3;// 系统账户收到提现手续费
+
+	/** =========还款状态=============== */
+	public final static int PAYMENT_STATE_NORMAL = 0; // 正常待还
+	public final static int PAYMENT_STATE_DONE = 1; // 已还
+	public final static int PAYMENT_STATE_OVERDUE = 2; // 逾期
 }

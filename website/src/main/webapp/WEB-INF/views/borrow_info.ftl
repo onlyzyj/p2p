@@ -185,6 +185,7 @@
 								投标中
 							</a>
 						<#elseif account?? && !self>
+						<#-- 0.## 表示小数点前原样输出（不原样输出会以2，000这样的形式输出前端不能正确读取），小数点后输出两位 -->
 						<input id="usableAmount" autocomplete="off" value="${account.usableAmount?string('0.##')}" type="hidden"/>
 						<input id="minBidAmount" autocomplete="off" value="${bidRequest.minBidAmount?string('0.##')}" type="hidden"/>
 						<input id="maxBidAmount" autocomplete="off" value="${bidRequest.remainAmount?string('0.##')}" type="hidden"/>

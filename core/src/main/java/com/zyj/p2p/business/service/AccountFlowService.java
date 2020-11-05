@@ -1,7 +1,11 @@
 package com.zyj.p2p.business.service;
 
 import com.zyj.p2p.base.domain.Account;
+import com.zyj.p2p.business.domain.Bid;
+import com.zyj.p2p.business.domain.BidRequest;
 import com.zyj.p2p.business.domain.RechargeOffline;
+
+import java.math.BigDecimal;
 
 /**
  * @author onlyzyj
@@ -15,4 +19,14 @@ public interface AccountFlowService {
      * @param applierAccount
      */
     void rechargeFlow(RechargeOffline r, Account applierAccount);
+
+    void bid(Bid bid, Account currentAccount);
+
+    void returnMoney(Bid bid, Account bidAccount);
+
+    void borrowSuccess(BidRequest br, Account borrowAccount);
+
+    void borrowChargeFee(BigDecimal manageChargeFee, BidRequest br, Account borrowAccount);
+
+    void bidSuccess(Bid bid, Account bidAccount);
 }
