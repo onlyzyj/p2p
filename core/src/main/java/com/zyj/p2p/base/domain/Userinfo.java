@@ -87,4 +87,14 @@ public class Userinfo extends BaseDomian {
         return BitStatesUtils.hasState(this.bitState,
                 BitStatesUtils.OP_HAS_BIDREQUEST_PROCESS);
     }
+
+    /**
+     * 返回用户是否绑定银行卡
+     *
+     * @return
+     */
+    public boolean getIsBindBank() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_BIND_BANKINFO);
+    }
 }
