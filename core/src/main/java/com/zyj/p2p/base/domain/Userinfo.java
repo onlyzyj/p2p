@@ -97,4 +97,14 @@ public class Userinfo extends BaseDomian {
         return BitStatesUtils.hasState(this.bitState,
                 BitStatesUtils.OP_BIND_BANKINFO);
     }
+
+    /**
+     * 返回用户是否有一个提现申请在处理流程当中
+     *
+     * @return
+     */
+    public boolean getHasWithdrawProcess() {
+        return BitStatesUtils.hasState(this.bitState,
+                BitStatesUtils.OP_HAS_MONEYWITHDRAW_PROCESS);
+    }
 }

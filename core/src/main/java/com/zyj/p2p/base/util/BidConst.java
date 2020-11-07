@@ -82,6 +82,11 @@ public class BidConst {
 			"5.0000");// 系统最小借款利息
 	public static final BigDecimal MAX_CURRENT_RATE = new BigDecimal("20.0000");// 系统最大借款利息
 
+	public static final BigDecimal MIN_WITHDRAW_AMOUNT = new BigDecimal(
+			"500.0000");// 系统最小提现金额
+	public static final BigDecimal MONEY_WITHDRAW_CHARGEFEE = new BigDecimal(
+			"2.0000");// 系统提现手续费
+
 	/** =============================账户流水类型================================ */
 	public final static int ACCOUNT_ACTIONTYPE_RECHARGE_OFFLINE = 0;// 资金流水类别：线下充值
 	// 可用余额增加

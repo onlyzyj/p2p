@@ -3,10 +3,7 @@ package com.zyj.p2p.business.service.impl;
 import com.zyj.p2p.base.domain.Account;
 import com.zyj.p2p.base.service.AccountService;
 import com.zyj.p2p.base.util.BidConst;
-import com.zyj.p2p.business.domain.AccountFlow;
-import com.zyj.p2p.business.domain.Bid;
-import com.zyj.p2p.business.domain.BidRequest;
-import com.zyj.p2p.business.domain.RechargeOffline;
+import com.zyj.p2p.business.domain.*;
 import com.zyj.p2p.business.mapper.AccountFlowMapper;
 import com.zyj.p2p.business.service.AccountFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +91,42 @@ public class AccountFlowServiceImpl implements AccountFlowService {
         flow.setAmount(bid.getAvailableAmount());
         flow.setNote("投标" + bid.getBidRequestTitle() + "成功,取消投标冻结金额:"
                 + bid.getAvailableAmount());
+        this.accountFlowMapper.insert(flow);
+    }
+
+    @Override
+    public void moneyWithDrawApply(MoneyWithdraw m, Account account) {
+        AccountFlow flow = createBaseFlow(account);
+        flow.setAccountType(BidConst.ACCOUNT_ACTIONTYPE_WITHDRAW_FREEZED);
+        flow.setAmount(m.getAmount());
+        flow.setNote("提现申请,冻结金额:" + m.getAmount());
+        this.accountFlowMapper.insert(flow);
+    }
+
+    @Override
+    public void withDrawChargeFee(MoneyWithdraw m, Account account) {
+        AccountFlow flow = createBaseFlow(account);
+        flow.setAccountType(BidConst.ACCOUNT_ACTIONTYPE_WITHDRAW_MANAGE_CHARGE);
+        flow.setAmount(m.getCharge());
+        flow.setNote("提现成功,提现手续费:" + m.getCharge());
+        this.accountFlowMapper.insert(flow);
+    }
+
+    @Override
+    public void withDrawSuccess(BigDecimal amount, Account account) {
+        AccountFlow flow = createBaseFlow(account);
+        flow.setAccountType(BidConst.ACCOUNT_ACTIONTYPE_WITHDRAW);
+        flow.setAmount(amount);
+        flow.setNote("提现成功,提现金额:" + amount);
+        this.accountFlowMapper.insert(flow);
+    }
+
+    @Override
+    public void withDrawFailed(MoneyWithdraw m, Account account) {
+        AccountFlow flow = createBaseFlow(account);
+        flow.setAccountType(BidConst.ACCOUNT_ACTIONTYPE_WITHDRAW_UNFREEZED);
+        flow.setAmount(m.getAmount());
+        flow.setNote("提现申请失败,取消冻结金额:" + m.getAmount());
         this.accountFlowMapper.insert(flow);
     }
 }

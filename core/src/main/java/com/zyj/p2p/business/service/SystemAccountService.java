@@ -1,6 +1,8 @@
 package com.zyj.p2p.business.service;
 
 import com.zyj.p2p.business.domain.BidRequest;
+import com.zyj.p2p.business.domain.MoneyWithdraw;
+import com.zyj.p2p.business.domain.PaymentScheduleDetail;
 import com.zyj.p2p.business.domain.SystemAccount;
 
 import java.math.BigDecimal;
@@ -25,19 +27,20 @@ public interface SystemAccountService {
      */
     void chargeBorrowFee(BidRequest br, BigDecimal manageChargeFee);
 
-//    /**
-//     * 系统账户收取提现手续费
-//     *
-//     * @param charge
-//     */
-//    void chargeWithdrawFee(MoneyWithdraw m);
-//
-//    /**
-//     * 系统账户手续利息管理费
-//     *
-//     * @param psd
-//     * @param interestChargeFee
-//     */
-//    void chargeInterestFee(PaymentScheduleDetail psd,
-//                           BigDecimal interestChargeFee);
+
+    /**
+     * 系统账户收取提现手续费
+     *
+     * @param charge
+     */
+    void chargeWithdrawFee(MoneyWithdraw m);
+
+    /**
+     * 系统账户手续利息管理费
+     *
+     * @param psd
+     * @param interestChargeFee
+     */
+    void chargeInterestFee(PaymentScheduleDetail psd,
+                           BigDecimal interestChargeFee);
 }

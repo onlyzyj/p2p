@@ -1,6 +1,8 @@
 package com.zyj.p2p.business.mapper;
 
 import com.zyj.p2p.business.domain.MoneyWithdraw;
+import com.zyj.p2p.business.query.MoneyWithdrawQueryObject;
+
 import java.util.List;
 
 public interface MoneyWithdrawMapper {
@@ -10,7 +12,7 @@ public interface MoneyWithdrawMapper {
 
     int updateByPrimaryKey(MoneyWithdraw record);
 
-//    int queryForCount(MoneyWithdrawQueryObject qo);
-//
-//    List<MoneyWithdraw> query(MoneyWithdrawQueryObject qo);
+    int queryForCount(MoneyWithdrawQueryObject qo);
+
+    List<MoneyWithdraw> query(MoneyWithdrawQueryObject qo);
 }
