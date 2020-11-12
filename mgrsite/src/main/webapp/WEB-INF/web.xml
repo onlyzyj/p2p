@@ -34,6 +34,17 @@
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
+    <!-- 同步图片 -->
+    <filter>
+        <filter-name>syncImgFilter</filter-name>
+        <filter-class>com.zyj.mgrsite.filter.SyncImgFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>syncImgFilter</filter-name>
+        <url-pattern>/upload/*</url-pattern>
+    </filter-mapping>
+
     <!-- 用于管理请求相关内容的监听器,只有配置了这个监听器才能使用RequestContextHolder -->
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>

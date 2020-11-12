@@ -33,8 +33,8 @@ public class UploadUtil {
 			FileUtils.writeByteArrayToFile(targetFile, file.getBytes());
 			
 			//把文件同步到公共文件夹
-//			File publicFile=new File(BidConst.PUBLIC_IMG_SHARE_PATH,fileName);
-//			FileUtils.writeByteArrayToFile(publicFile, file.getBytes());
+			File publicFile=new File(BidConst.PUBLIC_IMG_SHARE_PATH,fileName);
+			FileUtils.writeByteArrayToFile(publicFile, file.getBytes());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

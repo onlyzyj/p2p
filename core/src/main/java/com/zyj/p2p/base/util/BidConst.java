@@ -53,6 +53,11 @@ public class BidConst {
 	 */
 	public static final int BASE_BORROW_SCORE = 30;
 
+	/**
+	 * 存储图片的公共文件夹地址
+	 */
+	public static final String PUBLIC_IMG_SHARE_PATH="D:/data/photo/upload";
+
 	// --------------------还款类型---------------------------
 	public final static int RETURN_TYPE_MONTH_INTEREST_PRINCIPAL = 0; // 还款方式
 	// 按月分期还款(等额本息)
