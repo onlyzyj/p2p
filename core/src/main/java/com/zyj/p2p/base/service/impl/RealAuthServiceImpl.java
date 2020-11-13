@@ -2,14 +2,17 @@ package com.zyj.p2p.base.service.impl;
 
 import com.zyj.p2p.base.domain.RealAuth;
 import com.zyj.p2p.base.domain.Userinfo;
+import com.zyj.p2p.base.event.RealAuthSuccessEvent;
 import com.zyj.p2p.base.mapper.RealAuthMapper;
 import com.zyj.p2p.base.query.PageResult;
 import com.zyj.p2p.base.query.RealAuthQueryObject;
 import com.zyj.p2p.base.service.RealAuthService;
+import com.zyj.p2p.base.service.SmsService;
 import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.util.BitStatesUtils;
 import com.zyj.p2p.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -27,6 +30,9 @@ public class RealAuthServiceImpl implements RealAuthService {
 
     @Autowired
     private UserinfoService userinfoService;
+
+    @Autowired
+    private ApplicationContext ctx;
 
     @Override
     public RealAuth get(Long id) {
@@ -81,6 +87,8 @@ public class RealAuthServiceImpl implements RealAuthService {
                     applier.setIdNumber(ra.getIdNumber());
                     applier.setRealAuthId(ra.getId());
                 }
+                //发送短信
+                ctx.publishEvent(new RealAuthSuccessEvent(this,ra));
             } else {
                 // 1,userinfo中的realauthid设置为空
                 applier.setRealAuthId(null);
