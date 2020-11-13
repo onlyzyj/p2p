@@ -12,6 +12,7 @@ import com.zyj.p2p.base.service.UserinfoService;
 import com.zyj.p2p.base.util.BitStatesUtils;
 import com.zyj.p2p.base.util.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,12 @@ public class RealAuthServiceImpl implements RealAuthService {
     @Autowired
     private ApplicationContext ctx;
 
+    @Value("${db.timeout}")
+    private String key;
+
     @Override
     public RealAuth get(Long id) {
-        return realAuthMapper.selectByPrimaryKey(id);
+        return realAuthMapper.selectByPrimaryKey(id,key);
     }
 
     @Override
@@ -48,7 +52,7 @@ public class RealAuthServiceImpl implements RealAuthService {
             realAuth.setState(RealAuth.STATE_NORMAL);
             realAuth.setApplier(UserContext.getCurrent());
             realAuth.setApplyTime(new Date());
-            realAuthMapper.insert(realAuth);
+            realAuthMapper.insert(realAuth,key);
             //把实名认证的id设置给userinfo
             current.setRealAuthId(realAuth.getId());
             userinfoService.update(current);
@@ -57,9 +61,9 @@ public class RealAuthServiceImpl implements RealAuthService {
 
     @Override
     public PageResult query(RealAuthQueryObject qo) {
-        int count = realAuthMapper.queryForCount(qo);
+        int count = realAuthMapper.queryForCount(qo,key);
         if (count > 0) {
-            List<RealAuth> list = realAuthMapper.query(qo);
+            List<RealAuth> list = realAuthMapper.query(qo,key);
             return new PageResult(list, count, qo.getCurrentPage(), qo.getPageSize());
         }
         return PageResult.empty(qo.getPageSize());

@@ -34,11 +34,11 @@
       remark, auditTime, applyTime, 
       auditor_id, applier_id, realName,
       idNumber)
-    values (#{sex,jdbcType=TINYINT}, #{bornDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
-      #{state,jdbcType=TINYINT}, #{image1,jdbcType=VARCHAR}, #{image2,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, #{applyTime,jdbcType=TIMESTAMP},
-      #{auditor.id,jdbcType=BIGINT}, #{applier.id,jdbcType=BIGINT}, #{realName,jdbcType=LONGVARBINARY},
-      #{idNumber,jdbcType=LONGVARBINARY})
+    values (#{ra.sex,jdbcType=TINYINT}, #{ra.bornDate,jdbcType=VARCHAR}, #{ra.address,jdbcType=VARCHAR},
+      #{ra.state,jdbcType=TINYINT}, #{ra.image1,jdbcType=VARCHAR}, #{ra.image2,jdbcType=VARCHAR},
+      #{ra.remark,jdbcType=VARCHAR}, #{ra.auditTime,jdbcType=TIMESTAMP}, #{ra.applyTime,jdbcType=TIMESTAMP},
+      #{ra.auditor.id,jdbcType=BIGINT}, #{ra.applier.id,jdbcType=BIGINT}, AES_ENCRYPT(#{ra.realName,jdbcType=LONGVARBINARY},#{key}),
+      AES_ENCRYPT(#{ra.idNumber,jdbcType=LONGVARBINARY},#{key}))
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.zyj.p2p.base.domain.RealAuth" >
     update `realauth`
@@ -52,28 +52,25 @@
       auditTime = #{auditTime,jdbcType=TIMESTAMP},
       applyTime = #{applyTime,jdbcType=TIMESTAMP},
       auditor_id = #{auditor.id,jdbcType=BIGINT},
-      applier_id = #{applier.id,jdbcType=BIGINT},
-      realName = #{realName,jdbcType=LONGVARBINARY},
-      idNumber = #{idNumber,jdbcType=LONGVARBINARY}
+      applier_id = #{applier.id,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <sql id="base_column">
+  	id, CONVERT(AES_DECRYPT(realName,#{key}) USING UTF8) as realName, sex, bornDate, AES_DECRYPT(idNumber,#{key}) as idNumber, address, state, image1, image2, remark,
+    auditTime, applyTime
+  </sql>
+
   <sql id="full_column">
-  	r.id, r.realName, r.sex, r.bornDate, r.idNumber, r.address, r.state, r.image1, r.image2, r.remark,
+  	r.id, CONVERT(AES_DECRYPT(realName,#{key}) USING UTF8) as realName, r.sex, r.bornDate, AES_DECRYPT(r.idNumber,#{key}) as idNumber, r.address, r.state, r.image1, r.image2, r.remark,
     r.auditTime, r.applyTime,ap.id as ap_id,ap.username as ap_username,au.id as au_id,au.username as au_username
   </sql>
-  <select id="selectByPrimaryKey" resultMap="FullResultMap" parameterType="java.lang.Long" >
+
+  <select id="selectByPrimaryKey" resultMap="FullResultMap">
     select <include refid="full_column" />
     from `realauth` r JOIN logininfo ap ON r.applier_id=ap.id LEFT JOIN logininfo au ON r.auditor_id = au.id
     where r.id = #{id,jdbcType=BIGINT}
   </select>
-
-
-  <select id="selectAll" resultMap="FullResultMap" >
-    select <include refid="full_column"/>
-    from `realauth` r join logininfo ap on r.applier_id = ap.id join logininfo au on r.auditor_id = au.id
-  </select>
-
 
   <sql id="base_where">
     <where>
