@@ -1,6 +1,7 @@
 package com.zyj.p2p.base.domain;
 
 import com.zyj.p2p.base.util.BidConst;
+import com.zyj.p2p.base.util.MD5;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,18 @@ public class Account extends BaseDomian {
     private BigDecimal borrowLimit = BidConst.INIT_BORROW_LIMIT;
 
     private String verifyCode;// 做数据校验的
+
+    public String getVerifyCode() {
+        return MD5.encode(usableAmount.hashCode() + " "
+                + freezedAmount.hashCode());
+    }
+
+    public boolean checkVerifyCode() {
+        return MD5.encode(
+                usableAmount.hashCode() + " " + freezedAmount.hashCode())
+                .equals(verifyCode);
+    }
+
 
     public BigDecimal getTotalAmount(){
         return usableAmount.add(freezedAmount).add(unReceivePrincipal);

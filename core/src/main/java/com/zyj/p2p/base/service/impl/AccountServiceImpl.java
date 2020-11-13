@@ -32,7 +32,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account get(Long id) {
-        return accountMapper.selectByPrimaryKey(id);
+        Account account = this.accountMapper.selectByPrimaryKey(id);
+        if (!account.checkVerifyCode()) {
+            throw new RuntimeException("账户 :" + id + " 资金数据异常,阻止业务继续进行");
+        }
+        return account;
     }
 
     @Override
